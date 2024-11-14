@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gen Z Quiz</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f0f4ff, #d1e0f5);
+            margin: 0;
+        }
+        #quiz-container {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            max-width: 400px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .question {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+        }
+        .options {
+            display: flex;
+            flex-direction: column;
+        }
+        .option {
+            padding: 10px;
+            margin: 5px 0;
+            background: #e0e7ff;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        .option:hover {
+            background: #b6c5e5;
+        }
+        .next-btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: #4c8bf5;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            display: none;
+        }
+        .next-btn:hover {
+            background: #3570d9;
+        }
+        .emoji {
+            font-size: 1.5em;
+            margin-right: 5px;
+        }
+        .correct {
+            background: #c8e6c9;
+        }
+        .incorrect {
+            background: #ffcdd2;
+        }
+    </style>
+</head>
+<body>
+    <div id="quiz-container">
+        <div class="question">
+            <span class="emoji">💬</span> If someone said something bad to you, did something bad to you, you should:
+        </div>
+        <div class="options"></div>
+        <button class="next-btn" onclick="nextQuestion()">Next</button>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                emoji: "💬",
+                text: "If someone said something bad to you, did something bad to you, you should:",
+                options: [
+                    { text: "a) do the same to them, like talking back or punching back", correct: false },
+                    { text: "b) avoid them, like ignoring them, blocking their attacks", correct: false },
+                    { text: "c) avoid them, like ignoring them, or blocking their attacks, and report it ASAP", correct: true }
+                ]
+            },
+            {
+                emoji: "🗣️",
+                text: "If someone said something bad to you, did something bad to you, you could:",
+                options: [
+                    { text: "a) tell staff", correct: false },
+                    { text: "b) email school", correct: false },
+                    { text: "c) tell ambassadors at C6 lunch time", correct: false },
+                    { text: "d) tell parents", correct: false },
+                    { text: "e) all of the above", correct: true }
+                ]
+            },
+            {
+                emoji: "⏳",
+                text: "To report a situation, you should do it:",
+                options: [
+                    { text: "a) as soon as possible", correct: true },
+                 
+                    { text: "b) slowly", correct: false }
+                ]
+            },
+            {
+                emoji: "📝",
+                text: "When you report a situation, you should mention:",
+                options: [
+                    { text: "a) what happened", correct: false },
+                    { text: "b) when was it", correct: false },
+                    { text: "c) where was it", correct: false },
+                    { text: "d) all of the above", correct: true }
+                ]
+            },
+            {
+                emoji: "📢",
+                text: "If I got bullied but no one knows or it was long time ago, it is:",
+                options: [
+                    { text: "a) useless to report it because no one will believe me.", correct: false },
+                    { text: "b) important to report it to keep record and check CCTV", correct: true },
+                    { text: "c) useless to report it because no one sees it", correct: false }
+                ]
+            },
+            {
+                emoji: "🕰️",
+                text: "If I was bullied a long time ago, like in primary school:",
+                options: [
+                    { text: "a) I should be afraid to talk about it with anyone", correct: false },
+                    { text: "b) I can talk about it with staff or parents or ambassadors at C6", correct: true },
+                    { text: "c) I should become a bully myself", correct: false }
+                ]
+            },
+            {
+    emoji: "🤔",
+    text: "If I was never bullied but I want to learn better how to prevent it:",
+    options: [
+        { text: "a) I can ask about it with staff or ambassadors at C6", correct: false },
+        { text: "b) I should bully other people instead", correct: false },
+        { text: "c) I can prepare and apply to become an ambassador myself at C6", correct: false },
+        { text: "d) both a and c are correct", correct: true }
+    ]
+}
+
+        ];
+        
+        let currentQuestion = 0;
+        
+        function nextQuestion() {
+            currentQuestion++;
+            if (currentQuestion < questions.length) {
+                displayQuestion();
+                document.querySelector('.next-btn').style.display = 'none';
+            } else {
+                document.getElementById('quiz-container').innerHTML = "<div class='question'>🎉 Quiz Completed!</div>";
+            }
+        }
+        
+        function displayQuestion() {
+            const question = questions[currentQuestion];
+            document.querySelector('.question').innerHTML = `<span class="emoji">${question.emoji}</span> ${question.text}`;
+            document.querySelector('.options').innerHTML = question.options.map((option, index) => 
+                `<div class="option" onclick="selectOption(${index})">${option.text}</div>`
+            ).join('');
+        }
+        
+        function selectOption(index) {
+            const options = document.querySelectorAll('.option');
+            const isCorrect = questions[currentQuestion].options[index].correct;
+
+            options.forEach(option => option.onclick = null); // Disable further clicks
+            options[index].classList.add(isCorrect ? 'correct' : 'incorrect'); // Highlight answer
+            document.querySelector('.next-btn').style.display = 'block'; // Show 'Next' button
+        }
+        
+        displayQuestion();
+    </script>
+</body>
+</html>
